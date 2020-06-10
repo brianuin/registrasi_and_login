@@ -1,3 +1,8 @@
+<?php session_start();
+  if(!isset($_SESSION['no_peserta'])){
+    header('location:index_student.php');
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -101,6 +106,19 @@
               </p>
             </a>
           </li>
+          <?php
+            
+            if(isset($_SESSION['no_peserta'])){?>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p id="logout">
+                    Logout
+                  </p>
+                </a>
+              </li>
+            <?php } 
+          ?>
           
         </ul>
       </nav>
@@ -149,16 +167,20 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="no_peserta">No. Peserta</label>
-                                            <input type="text" class="form-control" id="no_peserta" placeholder="Nomor Peserta" nama="no_peserta">
+                                            <input type="text" class="form-control" id="no_peserta" placeholder="Nomor Peserta" nama="no_peserta" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="nama_lengkap">Nama Lengkap</label>
-                                            <input type="text" class="form-control" id="nama_lengkap" placeholder="Nama Lengkap">
+                                            <input type="text" class="form-control" id="nama_lengkap" placeholder="Nama Lengkap" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="tempat_tanggal_lahir">Tempat Tanggal Lahir</label>
-                                            <input type="text" class="form-control" id="tempat_tanggal_lahir" placeholder="Tempat Tanggal Lahir">
+                                            <input type="text" class="form-control" id="tempat_tanggal_lahir" placeholder="Tempat Tanggal Lahir" required>
                                         </div>
+                                        <div class="form-group">
+                                          <label for="sekolah_asal">Sekolah Asal</label>
+                                          <input type="text" class="form-control" id="sekolah_asal" placeholder="Sekolah Asal" required>
+                                      </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -171,8 +193,16 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="alamat">Alamat</label>
-                                            <input type="text" class="form-control" id="alamat" placeholder="Alamat">
+                                            <input type="text" class="form-control" id="alamat" placeholder="Alamat" required>
                                         </div>
+                                        <div class="form-group">
+                                          <label for="rata_rata_nilai_akhir">Rata Rata Nilai Akhir</label>
+                                          <input type="text" class="form-control" id="rata_rata_nilai_akhir" placeholder="Rata Rata Nilai Akhir" required>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="tahun_lulus">Tahun Lulus</label>
+                                        <input type="text" class="form-control" id="tahun_lulus" placeholder="Tahun Lulus" required>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -253,24 +283,11 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Save',
             confirmButtonClass: 'save_btn'
-            })
-            // .then((result) => {
-            // if (result.value) {
-            //     Swal.fire(
-            //         {
-            //             position: 'center',
-            //             icon: 'success',
-            //             title: 'Your Data Successfully Saved',
-            //             showConfirmButton: false,
-            //             timer: 1500
-            //         }
-            //     )
-            // }
-            // });
+            });
 
-            let save_btn = document.querySelector('.save_btn');
+            let form_biodata = document.querySelector('#form_biodata');
 
-              save_btn.addEventListener('click', storeData);
+            form_biodata.addEventListener('submit', storeData);
 
               function storeData(e){
                 let no_peserta= document.querySelector('#no_peserta').value;
@@ -278,6 +295,8 @@
                 let tempat_tanggal_lahir = document.querySelector('#tempat_tanggal_lahir').value;
                 let jurusan = document.querySelector('#jurusan').value;
                 let alamat = document.querySelector('#alamat').value;
+                let rata_rata_nilai_akhir = document.querySelector('#rata_rata_nilai_akhir').value;
+                let tahun_lulus = document.querySelector('#tahun_lulus').value;
 
                   $.ajaxSetup({
                       headers: {
@@ -289,9 +308,15 @@
                       type: 'POST',
                       url: 'php/core.php',
                       data: {
+                        type:'store_biodata',
                         no_peserta: no_peserta, 
-                        nama_lengkap : nama_lengkap,tempat_tanggal_lahir : tempat_tanggal_lahir, 
-                        jurusan : jurusan, alamat : alamat},
+                        nama_lengkap : nama_lengkap,
+                        tempat_tanggal_lahir : tempat_tanggal_lahir, 
+                        jurusan : jurusan, 
+                        alamat : alamat,
+                        rata_rata_nilai_akhir : rata_rata_nilai_akhir,
+                        tahun_lulus : tahun_lulus
+                        },
                       // dataType: 'json',
                       success: function(data) {
                         console.log(data);
@@ -327,10 +352,66 @@
                           });
                       }
                   });
+
+                  e.preventDefault();
               }
 
         });
 });
+
+let logout = document.getElementById('logout');
+logout.addEventListener('click', logoutProc);
+
+function logoutProc(){
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $.ajax({
+        type: 'POST',
+        url: 'php/core.php',
+        data: {
+          type:'logout'
+          },
+        // dataType: 'json',
+        success: function(data) {
+          console.log(data);
+          if(data == 1){
+            Swal.fire(
+            {
+                position: 'center',
+                icon: 'success',
+                title: 'Your Data Successfully Saved',
+                showConfirmButton: false,
+                timer: 1500
+            });
+            location.href = 'index_student.php';
+          }else{
+            Swal.fire(
+            {
+                position: 'center',
+                icon: 'error',
+                title: 'Your Data Failed to be Saved',
+                showConfirmButton: false,
+                timer: 1500
+            });
+          }
+        },
+        error: function(data) {
+            console.log(data);
+            Swal.fire(
+            {
+                position: 'center',
+                icon: 'error',
+                title: 'Your Data Failed to be Saved',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+    });
+}
 </script>
 <script src="js/crud_ajax.js"></script>
 </body>
