@@ -387,7 +387,7 @@ function logoutProc(){
                 showConfirmButton: false,
                 timer: 1500
             });
-            location.href = 'index_student.php';
+            location.href = 'login_student.php';
           }else{
             Swal.fire(
             {

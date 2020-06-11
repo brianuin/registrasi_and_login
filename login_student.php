@@ -124,7 +124,7 @@ if(isset($_SESSION['no_peserta'])){
                   showConfirmButton: false,
                   timer: 1500
               });
-            location.href = 'index2_student.php';
+            location.href = 'dashboard_student.php';
           }else{
             Swal.fire(
                       {
