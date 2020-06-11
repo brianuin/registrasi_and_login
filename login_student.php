@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-if(isset($_SESSION['no_peserta'])){
-  header('location:index2_student.php');
+if(isset($_SESSION['user'])){
+  header('location:dashboard_student.php');
 }
 ?>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@ if(isset($_SESSION['no_peserta'])){
             <a href="#"><b>Login</b> Siswa</a>
         </div>
 
-      <form id="form_login" action="index2_student.html" method="post">
+      <form id="form_login" action="#" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" id="no_peserta" placeholder="No. Peserta" required>
           <div class="input-group-append">
@@ -110,11 +110,11 @@ if(isset($_SESSION['no_peserta'])){
         data: {
           type: 'login',
           no_peserta : no_peserta,
-          password : password
+          password : password,
+          table : 'login_student'
         },
         // dataType: 'json',
         success: function(data) {
-          // console.log(data);
           if(data == 1){
             Swal.fire(
               {

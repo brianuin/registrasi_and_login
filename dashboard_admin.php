@@ -1,0 +1,606 @@
+<?php session_start();
+  if(!isset($_SESSION['user'])){
+    header('location:login_admin.php');
+  }
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <title>Dashboard Siswa</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet" href="plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Bootstrap4 Duallistbox -->
+    <link rel="stylesheet" href="plugins/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<div class="wrapper">
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="index3.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+    </ul>
+
+    <!-- SEARCH FORM -->
+    <form class="form-inline ml-3">
+      <div class="input-group input-group-sm">
+        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-navbar" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+           style="opacity: .8">
+      <span class="brand-text font-weight-light">AdminLTE 3</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a href="#" class="d-block">Administrator</a>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Registrasi Ulang
+              </p>
+            </a>
+          </li>
+          <?php
+            if(isset($_SESSION['user'])){ ?>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p id="logout">
+                    Logout
+                  </p>
+                </a>
+              </li>
+          <?php } ?>
+          
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Info boxes -->
+            <div class="row">
+                <!-- left column -->
+                <div class="col-md-12">
+                <!-- general form elements -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Biodata Siswa</h3>
+                        </div>
+                        <div class="card-body"><h5 class="card-title"></h5>
+                          <form id="form_biodata" role="form" action="#" method="post">
+                            <?php
+                              $link = mysqli_connect("localhost", "root", "", "crud_sekolah");
+ 
+                              // Check connection
+                              if($link === false){
+                                  die("ERROR: Could not connect. " . mysqli_connect_error());
+                              }
+                               
+                              // Attempt select query execution
+                              $sql = "SELECT * FROM siswa";
+                              if($result = mysqli_query($link, $sql)){
+                                if(mysqli_num_rows($result) > 0){
+                            ?>
+                            <table id="example" class="table table-striped table-bordered" style="width:100%">
+                              <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>No. Peserta</th>
+                                    <th>No. Induk Siswa</th>
+                                    <th>Nama Lengkap</th>
+                                    <th>Alamat</th>
+                                    <th>Pilihan Jurusan</th>
+                                    <th>Tanggal Masuk</th>
+                                    <th>Sekolah Asal</th>
+                                    <th>Rata Rata Nilai Akhir</th>
+                                    <th>Tahun Lulus</th>
+                                    <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <?php while($row = mysqli_fetch_array($result)){?>
+                                <tr>
+                                    <td><?php echo $row['id'];?></td>
+                                    <td><?php echo $row['no_peserta'];?></td>
+                                    <td><?php echo $row['no_induk_siswa'];?></td>
+                                    <td><?php echo $row['nama_lengkap'];?></td>
+                                    <td><?php echo $row['alamat'];?></td>
+                                    <td><?php echo $row['jurusan'];?></td>
+                                    <td><?php echo $row['tanggal_masuk'];?></td>
+                                    <td><?php echo $row['sekolah_asal'];?></td>
+                                    <td><?php echo $row['rata_rata_nilai_akhir'];?></td>
+                                    <td><?php echo $row['tahun_lulus'];?></td>
+                                    <td class="text-center" data-toggle="modal" data-target=".siswa"><a href="#" class="lihat_data" id="<?php echo $row['id'];?>">Lihat</a></td>
+                                </tr>
+                                <?php } ?>
+                              </tbody>
+                            </table>
+                            <?php 
+                                } 
+                              }
+                            ?>
+                            <div class="card-footer">
+                                <input type="submit" id="simpan_edit" class="btn btn-success" value="SIMPAN"/>
+                            </div>
+                          </form>
+                        </div>
+                    </div>
+                <!-- /.card -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+    <div class="modal fade siswa" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Data Siswa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+              <form id="form_student" action="#" method="post">
+                <div class="row">
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" name="id_data" id="id_data" required>
+                        <label for="nama">No Peserta</label>
+                        <input type="text" class="form-control" name="no_peserta" id="no_peserta" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Tempat Tanggal Lahir</label>
+                        <input type="text" class="form-control" name="tempat_tanggal_lahir" id="tempat_tanggal_lahir" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">No. Induk Siswa</label>
+                        <input type="text" class="form-control" name="no_induk_siswa" id="no_induk_siswa" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Alamat</label>
+                        <input type="text" class="form-control" name="alamat" id="alamat" required>
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Pilihan Jurusan</label>
+                        <select id="jurusan" class="form-control select2" style="width: 100%;">
+                          <option selected="selected">IPA</option>
+                          <option>IPS</option>
+                          <option>Bahasa</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Tanggal Masuk</label>
+                        <input type="text" class="form-control" name="tanggal_masuk" id="tanggal_masuk" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Sekolah Asal</label>
+                        <input type="text" class="form-control" name="sekolah_asal" id="sekolah_asal" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Rata-rata Nilai Akhir</label>
+                        <input type="text" class="form-control" name="rata_rata_nilai_akhir" id="rata_rata_nilai_akhir" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="nama">Tahun Lulus</label>
+                        <input type="text" class="form-control" name="tahun_lulus" id="tahun_lulus" required>
+                    </div>
+                  </div>
+
+                  <input type="submit" class="btn btn-primary" style="text-align: center;" value="SIMPAN"/>
+                </div>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
+    All rights reserved.
+    <div class="float-right d-none d-sm-inline-block">
+      <b>Version</b> 3.0.5
+    </div>
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+
+<!-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+
+<!-- <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap.min.js"></script> -->
+
+
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="plugins/moment/moment.min.js"></script>
+<script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+<!-- date-range-picker -->
+<script src="plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Toastr -->
+<script src="plugins/toastr/toastr.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<script src="js/crud_ajax.js"></script>
+
+<script>
+  //  $(document).ready(function() {
+  //     $('#example').DataTable();
+  // });
+</script>
+
+<script>
+    $('.select2').select2();
+
+    $(function() {
+      $('.swalDefaultSuccess').click(function() {
+          Swal.fire({
+          title: 'Are you sure want to save this ?',
+          // text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Save'
+          }).then((result) => {
+          if (result.value) {
+              Swal.fire(
+                  {
+                      position: 'center',
+                      icon: 'success',
+                      title: 'Your Data Successfully Saved',
+                      showConfirmButton: false,
+                      timer: 1500
+                  }
+              )
+          }
+          })
+      });
+    });
+
+    let logout = document.getElementById('logout');
+    logout.addEventListener('click', logoutProc);
+
+    function logoutProc(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: 'php/core.php',
+            data: {
+              type:'logout'
+              },
+            // dataType: 'json',
+            success: function(data) {
+              // console.log(data);
+              if(data == 1){
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Your Data Successfully Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                location.href = 'login_admin.php';
+              }else{
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Your Data Failed to be Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+              }
+            },
+            error: function(data) {
+                console.log(data);
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Your Data Failed to be Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    let lihat_data = document.querySelectorAll('.lihat_data');
+    lihat_data.forEach(function(element, value){
+      element.addEventListener('click', selectAllData);
+    }); 
+
+    function selectAllData(e){
+      // console.log(e.target.id);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: 'php/core.php',
+            data: {
+              type:'select_data',
+              id : e.target.id
+              },
+            // dataType: 'json',
+            success: function(data) {
+              // console.log(JSON.parse(data));
+              let data_obj = JSON.parse(data);
+
+              let id_data= document.querySelector('#id_data');
+              let no_peserta= document.querySelector('#no_peserta');
+              let tempat_tanggal_lahir = document.querySelector('#tempat_tanggal_lahir');
+              let no_induk_siswa = document.querySelector('#no_induk_siswa');
+              let nama_lengkap = document.querySelector('#nama_lengkap');
+              let alamat = document.querySelector('#alamat');
+              let jurusan = document.querySelector('#jurusan');
+              let tanggal_masuk = document.querySelector('#tanggal_masuk');
+              let sekolah_asal = document.querySelector('#sekolah_asal');
+              let rata_rata_nilai_akhir = document.querySelector('#rata_rata_nilai_akhir');
+              let tahun_lulus = document.querySelector('#tahun_lulus');
+
+              id_data.value = data_obj.id;
+              no_peserta.value = data_obj.no_peserta;
+              tempat_tanggal_lahir.value = data_obj.tempat_tanggal_lahir;
+              no_induk_siswa.value = data_obj.no_induk_siswa;
+              nama_lengkap.value = data_obj.nama_lengkap;
+              alamat.value = data_obj.alamat;
+              jurusan.value = data_obj.jurusan;
+              tanggal_masuk.value = data_obj.tanggal_masuk;
+              sekolah_asal.value = data_obj.sekolah_asal;
+              rata_rata_nilai_akhir.value = data_obj.rata_rata_nilai_akhir;
+              tahun_lulus.value = data_obj.tahun_lulus;
+              // if(data == 1){
+              //   Swal.fire(
+              //   {
+              //       position: 'center',
+              //       icon: 'success',
+              //       title: 'Your Data Successfully Saved',
+              //       showConfirmButton: false,
+              //       timer: 1500
+              //   });
+              //   location.href = 'login_admin.php';
+              // }else{
+              //   Swal.fire(
+              //   {
+              //       position: 'center',
+              //       icon: 'error',
+              //       title: 'Your Data Failed to be Saved',
+              //       showConfirmButton: false,
+              //       timer: 1500
+              //   });
+              // }
+            },
+            error: function(data) {
+                console.log(data);
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Your Data Failed to be Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+    }
+
+    let form_student = document.querySelector('#form_student');
+    form_student.addEventListener('submit', store_update);
+
+    function store_update(e){
+      let id_data= document.querySelector('#id_data').value;
+      let no_peserta= document.querySelector('#no_peserta').value;
+      let tempat_tanggal_lahir = document.querySelector('#tempat_tanggal_lahir').value;
+      let no_induk_siswa = document.querySelector('#no_induk_siswa').value;
+      let nama_lengkap = document.querySelector('#nama_lengkap').value;
+      let alamat = document.querySelector('#alamat').value;
+      let jurusan = document.querySelector('#jurusan').value;
+      let tanggal_masuk = document.querySelector('#tanggal_masuk').value;
+      let sekolah_asal = document.querySelector('#sekolah_asal').value;
+      let rata_rata_nilai_akhir = document.querySelector('#rata_rata_nilai_akhir').value;
+      let tahun_lulus = document.querySelector('#tahun_lulus').value;
+      
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: 'php/core.php',
+            data: {
+              type:'store_update',
+              id_data : id_data,
+              no_peserta : no_peserta,
+              tempat_tanggal_lahir : tempat_tanggal_lahir,
+              no_induk_siswa : no_induk_siswa,
+              nama_lengkap : nama_lengkap,
+              alamat : alamat,
+              jurusan : jurusan,
+              tanggal_masuk : tanggal_masuk,
+              sekolah_asal : sekolah_asal,
+              rata_rata_nilai_akhir : rata_rata_nilai_akhir,
+              tahun_lulus : tahun_lulus,
+              },
+            // dataType: 'json',
+            success: function(data) {
+              console.log(data);
+              
+              if(data == 1){
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Your Data Successfully Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                // location.href = 'login_admin.php';
+                location.reload();
+              }else{
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Your Data Failed to be Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+              }
+            },
+            error: function(data) {
+                console.log(data);
+                Swal.fire(
+                {
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Your Data Failed to be Saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+        });
+
+      e.preventDefault();      
+    }
+</script>
+</body>
+</html>

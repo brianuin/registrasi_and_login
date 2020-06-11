@@ -1,6 +1,6 @@
 <?php session_start();
-  if(!isset($_SESSION['no_peserta'])){
-    header('location:index_student.php');
+  if(!isset($_SESSION['user'])){
+    header('location:login_student.php');
   }
 ?>
 <!DOCTYPE html>
@@ -107,8 +107,7 @@
             </a>
           </li>
           <?php
-            
-            if(isset($_SESSION['no_peserta'])){?>
+            if(isset($_SESSION['user'])){ ?>
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -117,8 +116,7 @@
                   </p>
                 </a>
               </li>
-            <?php } 
-          ?>
+          <?php } ?>
           
         </ul>
       </nav>
@@ -163,48 +161,57 @@
                         <!-- form start -->
                         <form id="form_biodata" role="form" action="#" method="post">
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="no_peserta">No. Peserta</label>
-                                            <input type="text" class="form-control" id="no_peserta" placeholder="Nomor Peserta" nama="no_peserta" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama_lengkap">Nama Lengkap</label>
-                                            <input type="text" class="form-control" id="nama_lengkap" placeholder="Nama Lengkap" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tempat_tanggal_lahir">Tempat Tanggal Lahir</label>
-                                            <input type="text" class="form-control" id="tempat_tanggal_lahir" placeholder="Tempat Tanggal Lahir" required>
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="sekolah_asal">Sekolah Asal</label>
-                                          <input type="text" class="form-control" id="sekolah_asal" placeholder="Sekolah Asal" required>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Pilihan Jurusan</label>
-                                            <select id="jurusan" class="form-control select2" style="width: 100%;">
-                                              <option selected="selected">IPA</option>
-                                              <option>IPS</option>
-                                              <option>Bahasa</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="alamat">Alamat</label>
-                                            <input type="text" class="form-control" id="alamat" placeholder="Alamat" required>
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="rata_rata_nilai_akhir">Rata Rata Nilai Akhir</label>
-                                          <input type="text" class="form-control" id="rata_rata_nilai_akhir" placeholder="Rata Rata Nilai Akhir" required>
-                                      </div>
-                                      <div class="form-group">
-                                        <label for="tahun_lulus">Tahun Lulus</label>
-                                        <input type="text" class="form-control" id="tahun_lulus" placeholder="Tahun Lulus" required>
-                                    </div>
-                                    </div>
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                      <label for="nama">No Peserta</label>
+                                      <input type="text" class="form-control" name="no_peserta" id="no_peserta" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Tempat Tanggal Lahir</label>
+                                      <input type="text" class="form-control" name="tempat_tanggal_lahir" id="tempat_tanggal_lahir" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">No. Induk Siswa</label>
+                                      <input type="text" class="form-control" name="no_induk_siswa" id="no_induk_siswa" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Nama Lengkap</label>
+                                      <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Alamat</label>
+                                      <input type="text" class="form-control" name="alamat" id="alamat" required>
+                                  </div>
+                                  
                                 </div>
+                                <div class="col-md-6">
+                                  <div class="form-group">
+                                    <label>Pilihan Jurusan</label>
+                                      <select id="jurusan" class="form-control select2" style="width: 100%;">
+                                        <option selected="selected">IPA</option>
+                                        <option>IPS</option>
+                                        <option>Bahasa</option>
+                                      </select>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Tanggal Masuk</label>
+                                      <input type="text" class="form-control" name="tanggal_masuk" id="tanggal_masuk" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Sekolah Asal</label>
+                                      <input type="text" class="form-control" name="sekolah_asal" id="sekolah_asal" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Rata-rata Nilai Akhir</label>
+                                      <input type="text" class="form-control" name="rata_rata_nilai_akhir" id="rata_rata_nilai_akhir" required>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="nama">Tahun Lulus</label>
+                                      <input type="text" class="form-control" name="tahun_lulus" id="tahun_lulus" required>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                             <!-- /.card-body -->
             
@@ -285,16 +292,19 @@
             confirmButtonClass: 'save_btn'
             });
 
-            let form_biodata = document.querySelector('#form_biodata');
+            let form_biodata = document.querySelector('.save_btn');
 
-            form_biodata.addEventListener('submit', storeData);
+            form_biodata.addEventListener('click', storeData);
 
               function storeData(e){
                 let no_peserta= document.querySelector('#no_peserta').value;
-                let nama_lengkap = document.querySelector('#nama_lengkap').value;
                 let tempat_tanggal_lahir = document.querySelector('#tempat_tanggal_lahir').value;
-                let jurusan = document.querySelector('#jurusan').value;
+                let no_induk_siswa = document.querySelector('#no_induk_siswa').value;
+                let nama_lengkap = document.querySelector('#nama_lengkap').value;
                 let alamat = document.querySelector('#alamat').value;
+                let jurusan = document.querySelector('#jurusan').value;
+                let tanggal_masuk = document.querySelector('#tanggal_masuk').value;
+                let sekolah_asal = document.querySelector('#sekolah_asal').value;
                 let rata_rata_nilai_akhir = document.querySelector('#rata_rata_nilai_akhir').value;
                 let tahun_lulus = document.querySelector('#tahun_lulus').value;
 
@@ -310,10 +320,13 @@
                       data: {
                         type:'store_biodata',
                         no_peserta: no_peserta, 
-                        nama_lengkap : nama_lengkap,
                         tempat_tanggal_lahir : tempat_tanggal_lahir, 
-                        jurusan : jurusan, 
+                        no_induk_siswa : no_induk_siswa,
+                        nama_lengkap : nama_lengkap,
                         alamat : alamat,
+                        jurusan : jurusan, 
+                        tanggal_masuk : tanggal_masuk,
+                        sekolah_asal : sekolah_asal,
                         rata_rata_nilai_akhir : rata_rata_nilai_akhir,
                         tahun_lulus : tahun_lulus
                         },
