@@ -120,11 +120,14 @@ if(isset($_SESSION['user'])){
               {
                   position: 'center',
                   icon: 'success',
-                  title: 'Your Data Successfully Saved',
+                  title: 'Login Success',
                   showConfirmButton: false,
                   timer: 1500
               });
-            location.href = 'dashboard_student.php';
+              setTimeout(() => {
+                location.href = 'dashboard_student.php';
+              }, 2500);
+            
           }else{
             Swal.fire(
                       {

@@ -119,11 +119,13 @@ function login(e){
           Swal.fire({
               position: 'center',
               icon: 'success',
-              title: 'Your Data Successfully Saved',
+              title: 'Login Success',
               showConfirmButton: false,
               timer: 1500
           });
-          location.href = 'dashboard_admin.php';
+          setTimeout(() => {
+                location.href = 'dashboard_admin.php';
+              }, 2500);
         }else{
           Swal.fire({
               position: 'center',
